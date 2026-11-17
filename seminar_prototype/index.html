@@ -1,0 +1,804 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김은수 | Personal Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: #f8fafc;
+            color: #263445;
+            line-height: 1.7;
+        }
+
+        :root {
+            --navy: #172b4d;
+            --blue: #5278a5;
+            --light-blue: #eaf1f8;
+            --gray: #718096;
+        }
+
+        /* 네비게이션 */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e8edf3;
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: auto;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 27px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #536174;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: var(--blue);
+        }
+
+        /* 메인 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 130px 25px 80px;
+            background:
+                radial-gradient(circle at 85% 25%, #dce8f5 0, transparent 30%),
+                linear-gradient(135deg, #f8fafc, #edf3f9);
+        }
+
+        .hero-inner {
+            max-width: 1050px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .eyebrow {
+            color: var(--blue);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(45px, 7vw, 76px);
+            line-height: 1.15;
+            color: var(--navy);
+            margin-bottom: 25px;
+            letter-spacing: -3px;
+        }
+
+        h1 span {
+            color: var(--blue);
+        }
+
+        .hero-description {
+            font-size: 17px;
+            color: var(--gray);
+            max-width: 520px;
+            margin-bottom: 35px;
+            word-break: keep-all;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--blue);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 1px solid #b8c7d8;
+            color: var(--navy);
+        }
+
+        .btn-outline:hover {
+            background: white;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 22px;
+            box-shadow: 0 20px 60px rgba(37, 61, 91, 0.10);
+            text-align: center;
+            border: 1px solid #edf1f5;
+        }
+
+        .profile-icon {
+            width: 125px;
+            height: 125px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+        }
+
+        .profile-card h2 {
+            color: var(--navy);
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .profile-card p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .profile-tag {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: var(--light-blue);
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* 공통 섹션 */
+        section {
+            padding: 100px 25px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-heading small {
+            color: var(--blue);
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .section-heading h2 {
+            font-size: 36px;
+            color: var(--navy);
+            margin-top: 10px;
+        }
+
+        .section-heading p {
+            color: var(--gray);
+            margin-top: 12px;
+        }
+
+        /* About */
+        #about {
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 26px;
+            color: var(--navy);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            word-break: keep-all;
+        }
+
+        .info-list {
+            background: #f5f8fb;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #e1e8ef;
+            font-size: 14px;
+        }
+
+        .info-item:last-child {
+            border: none;
+        }
+
+        .info-item strong {
+            color: var(--navy);
+        }
+
+        .info-item span {
+            color: var(--gray);
+            text-align: right;
+        }
+
+        /* Major */
+        #major {
+            background: #f3f6fa;
+        }
+
+        .major-card {
+            background: white;
+            border-radius: 18px;
+            padding: 38px;
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 25px;
+            box-shadow: 0 8px 30px rgba(30,50,80,0.04);
+        }
+
+        .major-icon {
+            width: 75px;
+            height: 75px;
+            background: var(--light-blue);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .major-card h3 {
+            color: var(--navy);
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .major-card p {
+            color: var(--gray);
+            font-size: 15px;
+            word-break: keep-all;
+        }
+
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 22px;
+        }
+
+        .keyword {
+            padding: 7px 13px;
+            background: #eef3f8;
+            color: #52708f;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Values */
+        #values {
+            background: white;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .value-card {
+            padding: 35px 25px;
+            border: 1px solid #e8edf3;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 35px rgba(30,50,80,0.08);
+        }
+
+        .value-card .icon {
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        .value-card h3 {
+            color: var(--navy);
+            margin-bottom: 12px;
+            font-size: 19px;
+        }
+
+        .value-card p {
+            color: var(--gray);
+            font-size: 14px;
+            word-break: keep-all;
+        }
+
+        /* Goals */
+        #goals {
+            background: #f3f6fa;
+        }
+
+        .timeline {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 25px;
+            padding: 22px 0;
+            border-bottom: 1px solid #dce4ed;
+        }
+
+        .timeline-year {
+            min-width: 95px;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .timeline-text h3 {
+            color: var(--navy);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-text p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Motto */
+        #motto {
+            background: var(--navy);
+            text-align: center;
+            color: white;
+            padding: 90px 25px;
+        }
+
+        #motto small {
+            color: #a9c2df;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        #motto h2 {
+            font-size: clamp(24px, 4vw, 36px);
+            margin: 25px 0;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        #motto p {
+            color: #b8c7d8;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #101e34;
+            color: #aebdce;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 12px;
+        }
+
+        /* 모바일 */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 18px;
+            }
+
+            nav ul {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 11px;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .profile-card {
+                max-width: 350px;
+                width: 100%;
+                margin: auto;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .value-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .major-card {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+
+            .section-heading h2 {
+                font-size: 29px;
+            }
+
+            section {
+                padding: 75px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="logo">EUNSOO.</div>
+        <ul>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#major">MAJOR</a></li>
+            <li><a href="#values">VALUES</a></li>
+            <li><a href="#goals">GOALS</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- 메인 화면 -->
+<main>
+    <section class="hero">
+        <div class="hero-inner">
+
+            <div>
+                <div class="eyebrow">WELCOME TO MY PORTFOLIO</div>
+
+                <h1>
+                    Hello,<br>
+                    I'm <span>Eunsoo.</span>
+                </h1>
+
+                <p class="hero-description">
+                    안녕하세요. 끊임없이 배우고 성장하며
+                    더 나은 내일을 만들어 가는
+                    방사선학과 학생 김은수입니다.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary">
+                        나에 대해 알아보기
+                    </a>
+                    <a href="#goals" class="btn btn-outline">
+                        나의 목표 보기
+                    </a>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-icon">👩🏻‍🎓</div>
+                <h2>김은수</h2>
+                <p>Kim Eunsoo</p>
+                <p>건양대학교 방사선학과 2학년</p>
+                <div class="profile-tag">
+                    STUDENT · FUTURE RADIOLOGIC TECHNOLOGIST
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 자기소개 -->
+    <section id="about">
+        <div class="container">
+
+            <div class="section-heading">
+                <small>ABOUT ME</small>
+                <h2>Who Am I?</h2>
+                <p>나를 소개합니다.</p>
+            </div>
+
+            <div class="about-content">
+
+                <div class="about-text">
+                    <h3>배움을 통해 성장하는 사람</h3>
+
+                    <p>
+                        저는 새로운 환경과 경험을 두려워하기보다
+                        그 안에서 배울 점을 찾으려고 노력합니다.
+                    </p>
+
+                    <p>
+                        다양한 경험을 통해 책임감과 소통의 중요성을
+                        배웠으며, 맡은 일은 끝까지 해내는 태도를
+                        중요하게 생각합니다.
+                    </p>
+
+                    <p>
+                        현재는 방사선학을 공부하며 의료 기술과
+                        사람의 건강을 연결하는 전문적인 역량을
+                        키워 나가고 있습니다.
+                    </p>
+                </div>
+
+                <div class="info-list">
+                    <div class="info-item">
+                        <strong>Name</strong>
+                        <span>김은수 (Kim Eunsoo)</span>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>University</strong>
+                        <span>건양대학교</span>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Major</strong>
+                        <span>방사선학과</span>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Grade</strong>
+                        <span>2학년</span>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Personality</strong>
+                        <span>책임감 · 성실함 · 적응력</span>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Interest</strong>
+                        <span>의료영상 · 의료기술 · 글로벌 커리어</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 전공 -->
+    <section id="major">
+        <div class="container">
+
+            <div class="section-heading">
+                <small>MY MAJOR</small>
+                <h2>Radiological Science</h2>
+                <p>내가 공부하고 있는 분야</p>
+            </div>
+
+            <div class="major-card">
+                <div class="major-icon">🩻</div>
+
+                <div>
+                    <h3>방사선학과</h3>
+
+                    <p>
+                        방사선학은 X-ray, CT, MRI 등 다양한 의료영상
+                        기술을 활용하여 인체 내부를 관찰하고 질병의
+                        진단과 치료에 기여하는 학문입니다.
+                    </p>
+
+                    <p style="margin-top:12px;">
+                        정확한 영상 획득과 환자 안전을 위한 지식을
+                        배우며, 전문적인 의료인으로 성장하기 위해
+                        노력하고 있습니다.
+                    </p>
+
+                    <div class="keyword-list">
+                        <span class="keyword">X-ray</span>
+                        <span class="keyword">CT</span>
+                        <span class="keyword">MRI</span>
+                        <span class="keyword">Medical Imaging</span>
+                        <span class="keyword">Patient Safety</span>
+                        <span class="keyword">Radiation Physics</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 가치관 -->
+    <section id="values">
+        <div class="container">
+
+            <div class="section-heading">
+                <small>MY VALUES</small>
+                <h2>What I Believe</h2>
+                <p>내가 중요하게 생각하는 가치</p>
+            </div>
+
+            <div class="value-grid">
+
+                <div class="value-card">
+                    <div class="icon">📚</div>
+                    <h3>Continuous Learning</h3>
+                    <p>
+                        배움에는 끝이 없다고 생각합니다.
+                        새로운 지식과 기술을 꾸준히 익히며
+                        어제보다 나은 사람이 되고 싶습니다.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <div class="icon">🤝</div>
+                    <h3>Responsibility</h3>
+                    <p>
+                        작은 일이라도 책임감을 가지고
+                        끝까지 해내는 것이 신뢰를 만드는
+                        가장 중요한 방법이라고 생각합니다.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <div class="icon">🌱</div>
+                    <h3>Growth</h3>
+                    <p>
+                        익숙한 것에 안주하기보다 새로운 경험에
+                        도전하며 스스로의 가능성을 넓혀 가고
+                        싶습니다.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 목표 -->
+    <section id="goals">
+        <div class="container">
+
+            <div class="section-heading">
+                <small>MY FUTURE</small>
+                <h2>Dream & Goals</h2>
+                <p>앞으로 만들어 가고 싶은 나의 미래</p>
+            </div>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2026</div>
+                    <div class="timeline-text">
+                        <h3>Building My Foundation</h3>
+                        <p>
+                            전공 기초 지식과 의료영상에 대한 이해를
+                            탄탄하게 쌓아 가기
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2027</div>
+                    <div class="timeline-text">
+                        <h3>Expanding My Skills</h3>
+                        <p>
+                            전공 역량을 발전시키고 다양한 실무 경험과
+                            전문 자격을 준비하기
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2028</div>
+                    <div class="timeline-text">
+                        <h3>Becoming a Professional</h3>
+                        <p>
+                            임상 실습과 국가시험 준비를 통해
+                            전문 방사선사로 나아가기
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">Future</div>
+                    <div class="timeline-text">
+                        <h3>Global Healthcare Career</h3>
+                        <p>
+                            의료영상 분야의 전문성을 바탕으로
+                            글로벌 의료기기 산업까지 활동 영역 넓히기
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 좌우명 -->
+    <section id="motto">
+        <small>MY MOTTO</small>
+
+        <h2>
+            "Small steps every day<br>
+            lead to big changes."
+        </h2>
+
+        <p>
+            매일의 작은 노력이 모여 큰 변화를 만든다.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 KIM EUNSOO. All Rights Reserved.</p>
+    <p>My Personal Portfolio Website</p>
+</footer>
+
+</body>
+</html>

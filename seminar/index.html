@@ -1,0 +1,1535 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘 뭐 먹지? | MENU PICK</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --main: #ed8954;
+    --dark: #d96e3b;
+    --bg: #fff9f4;
+    --text: #39332f;
+    --sub: #897e75;
+    --border: #eee5de;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+header {
+    padding: 22px 7%;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    color: var(--dark);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.header-text {
+    color: var(--sub);
+    font-size: 12px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 50px 22px 80px;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.intro .emoji {
+    font-size: 48px;
+}
+
+.intro h1 {
+    font-size: 36px;
+    margin: 12px 0;
+}
+
+.intro h1 span {
+    color: var(--main);
+}
+
+.intro p {
+    color: var(--sub);
+    font-size: 14px;
+}
+
+.mode-area {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.mode-btn {
+    width: 155px;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: 13px;
+    background: white;
+    color: var(--sub);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mode-btn.active {
+    background: var(--main);
+    border-color: var(--main);
+    color: white;
+}
+
+.selection-box {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 30px #49311a0b;
+}
+
+.selection-title {
+    margin-bottom: 30px;
+}
+
+.selection-title h2 {
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+.selection-title p {
+    color: var(--sub);
+    font-size: 13px;
+}
+
+.category {
+    margin-bottom: 27px;
+}
+
+.category-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 13px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.category-title span {
+    font-size: 19px;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.option {
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 10px 16px;
+    background: #fffdfb;
+    color: #766b63;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    border-color: var(--main);
+    color: var(--dark);
+}
+
+.option.selected {
+    background: #fff0e7;
+    border-color: var(--main);
+    color: var(--dark);
+}
+
+.selected-count {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 25px;
+    color: var(--dark);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.action-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.recommend-btn {
+    flex: 1;
+    padding: 17px;
+    border: none;
+    border-radius: 12px;
+    background: var(--main);
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.recommend-btn:hover {
+    background: var(--dark);
+}
+
+.reset-btn {
+    padding: 17px 22px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    color: var(--sub);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.result-section {
+    display: none;
+    margin-top: 50px;
+    animation: fadeIn 0.4s ease;
+}
+
+.result-heading {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.result-heading .emoji {
+    font-size: 35px;
+}
+
+.result-heading h2 {
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.result-heading p {
+    color: var(--sub);
+    font-size: 13px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.food-card {
+    background: white;
+    padding: 25px 17px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    text-align: center;
+    box-shadow: 0 5px 20px #49311a08;
+    transition: 0.2s;
+}
+
+.food-card:hover {
+    transform: translateY(-5px);
+}
+
+.food-number {
+    color: var(--main);
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.food-emoji {
+    font-size: 43px;
+    margin-bottom: 12px;
+}
+
+.food-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.food-card p {
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.6;
+    min-height: 40px;
+}
+
+.food-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.food-tags span {
+    background: #fff1e8;
+    color: #b96d46;
+    border-radius: 20px;
+    padding: 5px 8px;
+    font-size: 10px;
+}
+
+.result-notice {
+    text-align: center;
+    margin-top: 22px;
+    color: var(--sub);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #aaa098;
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(15px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* 저녁 모드: 사이트 전체를 차분한 다크 테마로 전환 */
+body, header, .selection-box, .mode-btn, .option, .food-card, .reset-btn {
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+body.dinner-mode {
+    --main: #d99a62;
+    --dark: #efb47c;
+    --bg: #17191f;
+    --text: #eee9e2;
+    --sub: #aaa5a0;
+    --border: #383b44;
+    background: var(--bg);
+    color: var(--text);
+}
+
+body.dinner-mode header {
+    background: #20232b;
+    border-bottom-color: var(--border);
+}
+
+body.dinner-mode .selection-box,
+body.dinner-mode .food-card {
+    background: #22252e;
+    border-color: #393d48;
+    box-shadow: 0 8px 28px #00000030;
+}
+
+body.dinner-mode .mode-btn,
+body.dinner-mode .reset-btn {
+    background: #252832;
+    border-color: #414550;
+    color: #c3beb8;
+}
+
+body.dinner-mode .mode-btn.active,
+body.dinner-mode .recommend-btn {
+    background: var(--main);
+    border-color: var(--main);
+    color: #211b16;
+}
+
+body.dinner-mode .option {
+    background: #292d37;
+    border-color: #454a56;
+    color: #d0cbc5;
+}
+
+body.dinner-mode .option:hover {
+    border-color: var(--main);
+    color: #f2bd8e;
+}
+
+body.dinner-mode .option.selected {
+    background: #49382d;
+    border-color: var(--main);
+    color: #ffd2a8;
+}
+
+body.dinner-mode .food-tags span {
+    background: #49382d;
+    color: #f2bd8e;
+}
+
+body.dinner-mode footer {
+    color: #85818a;
+    border-top-color: var(--border);
+}
+
+body.dinner-mode .intro h1 span,
+body.dinner-mode .logo,
+body.dinner-mode .food-number,
+body.dinner-mode .selected-count {
+    color: var(--main);
+}
+
+@media(max-width:650px) {
+    .container {padding-top: 35px;}
+    .intro h1 {font-size: 29px;}
+    .selection-box {padding: 23px 17px;}
+    .result-grid {grid-template-columns: 1fr;}
+    .header-text {display: none;}
+    .option {padding: 9px 12px; font-size: 12px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🍴 MENU PICK</div>
+    <div class="header-text">YOUR DAILY FOOD SELECTOR</div>
+</header>
+
+<main class="container">
+
+    <div class="intro">
+        <div class="emoji">🍱</div>
+        <h1>오늘 <span>뭐 먹지?</span></h1>
+        <p>원하는 음식의 조건을 선택하고 나만의 메뉴를 추천받아 보세요!</p>
+    </div>
+
+    <!-- 점심 / 저녁 -->
+
+    <div class="mode-area">
+        <button class="mode-btn active" data-mode="lunch" onclick="setMode('lunch')">
+            ☀️ 점심 모드
+        </button>
+        <button class="mode-btn" data-mode="dinner" onclick="setMode('dinner')">
+            🌙 저녁 모드
+        </button>
+    </div>
+
+    <div class="selection-box">
+
+        <div class="selection-title">
+            <h2>🔍 음식 취향 선택하기</h2>
+            <p>각 카테고리에서 원하는 조건을 선택해 주세요.</p>
+        </div>
+
+        <!-- 01 음식 종류 -->
+
+        <div class="category">
+            <div class="category-title"><span>🍽️</span> 01. 음식 종류</div>
+            <div class="options" data-category="type">
+                <button class="option" data-value="한식">한식</button>
+                <button class="option" data-value="양식">양식</button>
+                <button class="option" data-value="중식">중식</button>
+                <button class="option" data-value="일식">일식</button>
+                <button class="option" data-value="아시아식">아시아식</button>
+            </div>
+        </div>
+
+        <!-- 02 주식 -->
+
+        <div class="category">
+            <div class="category-title"><span>🍚</span> 02. 주식</div>
+            <div class="options" data-category="staple">
+                <button class="option" data-value="밥">밥</button>
+                <button class="option" data-value="빵">빵</button>
+                <button class="option" data-value="면">면</button>
+                <button class="option" data-value="떡">떡</button>
+                <button class="option" data-value="감자·고구마">감자·고구마</button>
+                <button class="option" data-value="옥수수">옥수수</button>
+                <button class="option" data-value="기타 곡물">기타 곡물</button>
+            </div>
+        </div>
+
+        <!-- 03 주재료 -->
+
+        <div class="category">
+            <div class="category-title"><span>🥩</span> 03. 주재료</div>
+            <div class="options" data-category="ingredient">
+                <button class="option" data-value="고기">고기</button>
+                <button class="option" data-value="채소">채소</button>
+                <button class="option" data-value="해산물">해산물</button>
+                <button class="option" data-value="달걀">달걀</button>
+                <button class="option" data-value="유제품">유제품</button>
+                <button class="option" data-value="두부·콩류">두부·콩류</button>
+                <button class="option" data-value="버섯">버섯</button>
+            </div>
+        </div>
+
+        <!-- 04 매운맛 정도 -->
+
+        <div class="category">
+            <div class="category-title"><span>🌶️</span> 04. 매운맛 정도</div>
+            <div class="options" data-category="spice" data-single="true">
+                <button class="option" data-value="담백">담백</button>
+                <button class="option" data-value="빨갛지만 덜 매움">빨갛지만 덜 매움</button>
+                <button class="option" data-value="적당히 매움">적당히 매움</button>
+                <button class="option" data-value="아주 매움">아주 매움</button>
+            </div>
+        </div>
+
+        <!-- 05 주된 맛 -->
+
+        <div class="category">
+            <div class="category-title"><span>😋</span> 05. 주된 맛</div>
+            <div class="options" data-category="flavor">
+                <button class="option" data-value="짭짤">짭짤</button>
+                <button class="option" data-value="달콤">달콤</button>
+                <button class="option" data-value="새콤">새콤</button>
+                <button class="option" data-value="고소">고소</button>
+                <button class="option" data-value="감칠맛">감칠맛</button>
+            </div>
+        </div>
+
+        <!-- 06 국물 -->
+
+        <div class="category">
+            <div class="category-title"><span>🍲</span> 06. 국물</div>
+            <div class="options" data-category="soup" data-single="true">
+                <button class="option" data-value="국물 있음">국물 있음</button>
+                <button class="option" data-value="국물 없음">국물 없음</button>
+            </div>
+        </div>
+
+        <!-- 07 온도 -->
+
+        <div class="category">
+            <div class="category-title"><span>🌡️</span> 07. 음식 온도</div>
+            <div class="options" data-category="temperature" data-single="true">
+                <button class="option" data-value="뜨거움">뜨거움</button>
+                <button class="option" data-value="차가움">차가움</button>
+            </div>
+        </div>
+
+        <!-- 08 식사 스타일 -->
+
+        <div class="category">
+            <div class="category-title"><span>🥢</span> 08. 식사 스타일</div>
+            <div class="options" data-category="style">
+                <button class="option" data-value="든든한 식사">든든한 식사</button>
+                <button class="option" data-value="가벼운 식사">가벼운 식사</button>
+                <button class="option" data-value="간편식">간편식</button>
+            </div>
+        </div>
+
+        <div class="selected-count" id="selectedCount">
+            현재 선택한 키워드: 0개
+        </div>
+
+        <div class="action-area">
+            <button class="recommend-btn" onclick="recommendFood()">
+                ✨ 추천!
+            </button>
+            <button class="reset-btn" onclick="resetSelection()">
+                초기화
+            </button>
+        </div>
+
+    </div>
+
+    <!-- 추천 결과 -->
+
+    <section class="result-section" id="resultSection">
+
+        <div class="result-heading">
+            <div class="emoji">🎉</div>
+            <h2>오늘의 추천 메뉴</h2>
+            <p id="resultDescription"></p>
+        </div>
+
+        <div class="result-grid" id="resultGrid"></div>
+
+        <div class="result-notice" id="resultNotice"></div>
+
+        <div class="action-area">
+            <button class="recommend-btn" onclick="recommendFood()">
+                🔄 다시 추천받기
+            </button>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 MENU PICK · 오늘도 맛있는 하루 보내세요!
+</footer>
+
+
+<script>
+
+// =====================================
+// 1. 모드 설정
+// =====================================
+
+let currentMode = 'lunch';
+
+function setMode(mode) {
+    currentMode = mode;
+    document.body.classList.toggle('dinner-mode', mode === 'dinner');
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+
+    document.getElementById('resultSection').style.display = 'none';
+}
+
+
+// =====================================
+// 2. 키워드 선택 기능
+// =====================================
+
+document.querySelectorAll('.option').forEach(button => {
+
+    button.addEventListener('click', function() {
+
+        const group = this.closest('.options');
+
+        if (group.dataset.single === 'true') {
+            group.querySelectorAll('.option').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            this.classList.add('selected');
+        } else {
+            this.classList.toggle('selected');
+        }
+
+        updateCount();
+    });
+
+});
+
+function updateCount() {
+    const count = document.querySelectorAll('.option.selected').length;
+
+    document.getElementById('selectedCount').textContent =
+        `현재 선택한 키워드: ${count}개`;
+}
+
+
+// =====================================
+// 3. 음식 데이터베이스
+// =====================================
+
+const foods = [
+
+{
+    name:'육개장', emoji:'🍲',
+    desc:'얼큰하고 진한 소고기 국물 요리',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['고기','채소'],
+    spice:'적당히 매움',
+    flavor:['짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'김치찌개', emoji:'🥘',
+    desc:'돼지고기와 김치가 어우러진 찌개',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['고기','채소'],
+    spice:'적당히 매움',
+    flavor:['새콤','짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'닭볶음탕', emoji:'🍗',
+    desc:'매콤한 양념이 깊게 배어든 닭고기 요리',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['고기','채소'],
+    spice:'아주 매움',
+    flavor:['달콤','짭짤'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'순두부찌개', emoji:'🍲',
+    desc:'부드러운 순두부와 얼큰한 국물',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['두부·콩류','해산물','달걀'],
+    spice:'적당히 매움',
+    flavor:['짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'제육볶음', emoji:'🥩',
+    desc:'매콤달콤한 돼지고기 볶음',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['고기','채소'],
+    spice:'적당히 매움',
+    flavor:['달콤','짭짤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'불고기', emoji:'🥩',
+    desc:'달콤하고 부드러운 양념 소고기',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['고기'],
+    spice:'담백',
+    flavor:['달콤','짭짤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'된장찌개', emoji:'🍲',
+    desc:'구수한 된장과 다양한 채소가 들어간 찌개',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['채소','두부·콩류','버섯'],
+    spice:'담백',
+    flavor:['고소','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'갈비탕', emoji:'🍖',
+    desc:'진하게 우려낸 소갈비 국물 요리',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['고기'],
+    spice:'담백',
+    flavor:['짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'비빔밥', emoji:'🥗',
+    desc:'다양한 나물과 고추장을 비벼 먹는 음식',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['채소','고기','달걀'],
+    spice:'적당히 매움',
+    flavor:['고소','감칠맛'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'냉면', emoji:'🍜',
+    desc:'시원하고 새콤한 육수의 면 요리',
+    type:['한식'],
+    staple:['면'],
+    ingredient:['고기','채소'],
+    spice:'담백',
+    flavor:['새콤','새콤'],
+    soup:'국물 있음',
+    temperature:'차가움',
+    style:['가벼운 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'돈가스', emoji:'🍛',
+    desc:'바삭하게 튀겨낸 돼지고기 요리',
+    type:['일식'],
+    staple:['밥'],
+    ingredient:['고기','달걀'],
+    spice:'담백',
+    flavor:['짭짤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'초밥', emoji:'🍣',
+    desc:'신선한 해산물을 올린 일본식 초밥',
+    type:['일식'],
+    staple:['밥'],
+    ingredient:['해산물'],
+    spice:'담백',
+    flavor:['새콤','감칠맛'],
+    soup:'국물 없음',
+    temperature:'차가움',
+    style:['가벼운 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'라멘', emoji:'🍜',
+    desc:'진한 육수와 쫄깃한 면이 어우러진 요리',
+    type:['일식'],
+    staple:['면'],
+    ingredient:['고기','달걀'],
+    spice:'담백',
+    flavor:['짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'규동', emoji:'🍚',
+    desc:'달콤짭짤한 소고기를 밥 위에 올린 덮밥',
+    type:['일식'],
+    staple:['밥'],
+    ingredient:['고기','채소'],
+    spice:'담백',
+    flavor:['달콤','짭짤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'마라탕', emoji:'🌶️',
+    desc:'얼얼하고 매콤한 중국식 국물 요리',
+    type:['중식'],
+    staple:['면'],
+    ingredient:['고기','채소','버섯','두부·콩류'],
+    spice:'아주 매움',
+    flavor:['짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'짜장면', emoji:'🍜',
+    desc:'달콤하고 고소한 춘장 소스의 면 요리',
+    type:['중식'],
+    staple:['면'],
+    ingredient:['고기','채소'],
+    spice:'담백',
+    flavor:['달콤','짭짤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'짬뽕', emoji:'🍜',
+    desc:'해산물과 채소가 들어간 얼큰한 국물 면',
+    type:['중식'],
+    staple:['면'],
+    ingredient:['해산물','채소'],
+    spice:'적당히 매움',
+    flavor:['짭짤','감칠맛'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'탕수육', emoji:'🥢',
+    desc:'새콤달콤한 소스를 곁들인 돼지고기 튀김',
+    type:['중식'],
+    staple:['감자·고구마'],
+    ingredient:['고기'],
+    spice:'담백',
+    flavor:['새콤','달콤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'파스타', emoji:'🍝',
+    desc:'소스에 따라 다양한 맛을 즐기는 이탈리아 요리',
+    type:['양식'],
+    staple:['면'],
+    ingredient:['고기','유제품'],
+    spice:'담백',
+    flavor:['고소','짭짤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'스테이크', emoji:'🥩',
+    desc:'육즙 가득한 소고기를 구워낸 요리',
+    type:['양식'],
+    staple:['감자·고구마'],
+    ingredient:['고기','채소'],
+    spice:'담백',
+    flavor:['짭짤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['dinner']
+},
+
+{
+    name:'피자', emoji:'🍕',
+    desc:'치즈와 다양한 토핑을 올려 구운 음식',
+    type:['양식'],
+    staple:['빵'],
+    ingredient:['고기','유제품'],
+    spice:'담백',
+    flavor:['짭짤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'햄버거', emoji:'🍔',
+    desc:'패티와 채소를 빵 사이에 넣은 간편한 식사',
+    type:['양식'],
+    staple:['빵'],
+    ingredient:['고기','채소','유제품'],
+    spice:'담백',
+    flavor:['짭짤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['간편식'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'쌀국수', emoji:'🍜',
+    desc:'담백한 육수와 부드러운 쌀면의 조화',
+    type:['아시아식'],
+    staple:['면'],
+    ingredient:['고기','채소'],
+    spice:'담백',
+    flavor:['감칠맛','새콤'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['가벼운 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'팟타이', emoji:'🍝',
+    desc:'새콤달콤한 태국식 볶음 쌀국수',
+    type:['아시아식'],
+    staple:['면'],
+    ingredient:['해산물','달걀','채소'],
+    spice:'담백',
+    flavor:['새콤','달콤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'김밥', emoji:'🍙',
+    desc:'밥과 다양한 재료를 김으로 말아낸 간편식',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['채소','달걀','고기'],
+    spice:'담백',
+    flavor:['고소','짭짤'],
+    soup:'국물 없음',
+    temperature:'차가움',
+    style:['간편식'],
+    modes:['lunch']
+},
+
+{
+    name:'샐러드', emoji:'🥗',
+    desc:'신선한 채소와 가벼운 드레싱',
+    type:['양식'],
+    staple:['기타 곡물'],
+    ingredient:['채소','고기'],
+    spice:'담백',
+    flavor:['새콤','고소'],
+    soup:'국물 없음',
+    temperature:'차가움',
+    style:['가벼운 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'오므라이스', emoji:'🍳',
+    desc:'볶음밥을 부드러운 달걀로 감싼 요리',
+    type:['양식'],
+    staple:['밥'],
+    ingredient:['달걀','고기'],
+    spice:'담백',
+    flavor:['달콤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'삼겹살', emoji:'🥓',
+    desc:'노릇하게 구워 먹는 고소한 돼지고기',
+    type:['한식'],
+    staple:[],
+    ingredient:['고기','채소'],
+    spice:'담백',
+    flavor:['짭짤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['dinner']
+},
+
+{
+    name:'떡볶이', emoji:'🍢',
+    desc:'쫄깃한 떡과 매콤달콤한 양념의 조화',
+    type:['한식'],
+    staple:['떡'],
+    ingredient:['채소'],
+    spice:'적당히 매움',
+    flavor:['달콤','짭짤'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['간편식'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'샤브샤브', emoji:'🥬',
+    desc:'얇은 고기와 채소를 육수에 익혀 먹는 요리',
+    type:['아시아식'],
+    staple:[],
+    ingredient:['고기','채소','버섯'],
+    spice:'담백',
+    flavor:['감칠맛','고소'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['든든한 식사'],
+    modes:['dinner']
+},
+
+{
+    name:'치킨', emoji:'🍗',
+    desc:'바삭하고 고소하게 튀겨낸 닭고기',
+    type:['한식'],
+    staple:[],
+    ingredient:['고기'],
+    spice:'담백',
+    flavor:['짭짤','고소'],
+    soup:'국물 없음',
+    temperature:'뜨거움',
+    style:['간편식','든든한 식사'],
+    modes:['dinner']
+},
+
+{
+    name:'우동', emoji:'🍜',
+    desc:'부드러운 면과 따뜻한 가쓰오 육수',
+    type:['일식'],
+    staple:['면'],
+    ingredient:['해산물'],
+    spice:'담백',
+    flavor:['감칠맛','짭짤'],
+    soup:'국물 있음',
+    temperature:'뜨거움',
+    style:['가벼운 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'회덮밥', emoji:'🐟',
+    desc:'신선한 회와 채소를 밥에 비벼 먹는 음식',
+    type:['한식'],
+    staple:['밥'],
+    ingredient:['해산물','채소'],
+    spice:'적당히 매움',
+    flavor:['새콤','새콤'],
+    soup:'국물 없음',
+    temperature:'차가움',
+    style:['가벼운 식사'],
+    modes:['lunch','dinner']
+},
+
+{
+    name:'부대찌개', emoji:'🍲', desc:'햄과 소시지, 김치가 들어간 얼큰한 찌개',
+    type:['한식'], staple:['밥'], ingredient:['고기','채소'], spice:'적당히 매움', flavor:['짭짤','감칠맛'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'순대국밥', emoji:'🍲', desc:'돼지국밥에 순대와 고기를 넣은 든든한 한 끼',
+    type:['한식'], staple:['밥'], ingredient:['고기'], spice:'담백', flavor:['짭짤','감칠맛'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'돼지국밥', emoji:'🍚', desc:'뽀얀 돼지뼈 육수에 밥과 고기를 곁들인 음식',
+    type:['한식'], staple:['밥'], ingredient:['고기'], spice:'담백', flavor:['고소','감칠맛'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'뼈해장국', emoji:'🍖', desc:'큼직한 등뼈와 우거지가 들어간 얼큰한 국물 요리',
+    type:['한식'], staple:['밥'], ingredient:['고기','채소'], spice:'적당히 매움', flavor:['짭짤','감칠맛'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'설렁탕', emoji:'🍲', desc:'소뼈를 오래 끓여 낸 뽀얀 국물과 밥',
+    type:['한식'], staple:['밥'], ingredient:['고기'], spice:'담백', flavor:['고소','감칠맛'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'찜닭', emoji:'🍗', desc:'간장 양념에 닭고기와 당면, 채소를 넣고 졸인 음식',
+    type:['한식'], staple:['밥','면'], ingredient:['고기','채소'], spice:'담백', flavor:['달콤','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'닭갈비', emoji:'🍗', desc:'고구마와 양배추를 넣고 매콤하게 볶은 닭고기',
+    type:['한식'], staple:['밥'], ingredient:['고기','채소'], spice:'적당히 매움', flavor:['매콤','달콤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'보쌈정식', emoji:'🥬', desc:'부드러운 돼지고기 수육과 밥, 반찬을 곁들인 정식',
+    type:['한식'], staple:['밥'], ingredient:['고기','채소'], spice:'담백', flavor:['고소','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'참치마요덮밥', emoji:'🍚', desc:'밥 위에 참치와 마요네즈, 김가루를 올린 덮밥',
+    type:['한식'], staple:['밥'], ingredient:['해산물','달걀'], spice:'담백', flavor:['고소','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사','간편식'], modes:['lunch','dinner']
+},
+
+{
+    name:'치킨마요덮밥', emoji:'🍗', desc:'밥 위에 치킨과 달걀, 마요네즈 소스를 올린 덮밥',
+    type:['한식'], staple:['밥'], ingredient:['고기','달걀'], spice:'담백', flavor:['달콤','고소'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사','간편식'], modes:['lunch','dinner']
+},
+
+{
+    name:'제육덮밥', emoji:'🍚', desc:'매콤달콤하게 볶은 돼지고기를 밥 위에 올린 메뉴',
+    type:['한식'], staple:['밥'], ingredient:['고기','채소'], spice:'적당히 매움', flavor:['달콤','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'카레라이스', emoji:'🍛', desc:'부드러운 카레 소스를 밥에 곁들인 한 그릇 음식',
+    type:['일식'], staple:['밥'], ingredient:['고기','채소'], spice:'담백', flavor:['고소','감칠맛'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'쫄면', emoji:'🍜', desc:'쫄깃한 면에 매콤새콤한 양념과 채소를 비빈 음식',
+    type:['한식'], staple:['면'], ingredient:['채소'], spice:'적당히 매움', flavor:['새콤','달콤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'돈부리', emoji:'🍚', desc:'달콤짭짤한 고기와 달걀을 밥 위에 얹은 일본식 덮밥',
+    type:['일식'], staple:['밥'], ingredient:['고기','달걀'], spice:'담백', flavor:['달콤','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'알밥', emoji:'🍚', desc:'날치알과 김치, 채소를 넣어 뜨겁게 비벼 먹는 밥',
+    type:['한식'], staple:['밥'], ingredient:['해산물','채소'], spice:'담백', flavor:['짭짤','고소'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'잔치국수', emoji:'🍜', desc:'멸치 육수에 소면과 고명을 올린 따뜻한 국수',
+    type:['한식'], staple:['면'], ingredient:['채소'], spice:'담백', flavor:['감칠맛','짭짤'], soup:'국물 있음', temperature:'뜨거움', style:['가벼운 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'칼국수', emoji:'🍜', desc:'쫄깃한 칼국수 면을 진한 육수에 끓인 음식',
+    type:['한식'], staple:['면'], ingredient:['채소','해산물'], spice:'담백', flavor:['고소','감칠맛'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'비빔국수', emoji:'🍜', desc:'새콤달콤한 양념장에 소면과 채소를 비빈 음식',
+    type:['한식'], staple:['면'], ingredient:['채소'], spice:'적당히 매움', flavor:['새콤','달콤'], soup:'국물 없음', temperature:'차가움', style:['가벼운 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'만두국', emoji:'🥟', desc:'고기만두와 떡 또는 만두를 맑은 국물에 끓인 음식',
+    type:['한식'], staple:['떡'], ingredient:['고기','채소'], spice:'담백', flavor:['감칠맛','짭짤'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'순대', emoji:'🍢', desc:'당면과 채소 등을 넣어 찐 순대를 소금이나 양념에 찍어 먹는 분식',
+    type:['한식'], staple:['기타'], ingredient:['고기'], spice:'담백', flavor:['짭짤','고소'], soup:'국물 없음', temperature:'뜨거움', style:['간편식','가벼운 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'라볶이', emoji:'🍜', desc:'떡볶이에 라면 사리를 더한 인기 분식 메뉴',
+    type:['한식'], staple:['떡','면'], ingredient:['채소'], spice:'적당히 매움', flavor:['달콤','짭짤'], soup:'국물 있음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'감자탕', emoji:'🍲', desc:'돼지 등뼈와 감자, 우거지를 넣고 끓인 얼큰한 국물 요리',
+    type:['한식'], staple:['밥'], ingredient:['고기','채소'], spice:'적당히 매움', flavor:['짭짤','감칠맛'], soup:'국물 없음', temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'닭강정', emoji:'🍗', desc:'한입 크기 닭튀김에 달콤짭짤한 소스를 입힌 메뉴',
+    type:['한식'], staple:['기타'], ingredient:['고기'], spice:'담백', flavor:['달콤','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['간편식','든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'돈가스덮밥', emoji:'🍛', desc:'바삭한 돈가스에 달걀과 양파 소스를 곁들여 밥 위에 올린 덮밥',
+    type:['일식'], staple:['밥'], ingredient:['고기','달걀'], spice:'담백', flavor:['달콤','짭짤'], soup:'국물 없음', temperature:'뜨거움', style:['간편식','든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'샌드위치', emoji:'🥪', desc:'햄이나 달걀, 채소를 넣어 간편하게 먹는 샌드위치',
+    type:['양식'], staple:['빵'], ingredient:['고기','달걀','채소'], spice:'담백', flavor:['짭짤','고소'], soup:'국물 없음', temperature:'차가움', style:['간편식','가벼운 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'잠봉뵈르', emoji:'🥖',
+    desc:'바삭한 바게트에 햄과 버터를 채운 프랑스식 샌드위치',
+    type:['양식'], staple:['빵'], ingredient:['고기','유제품'],
+    spice:'담백', flavor:['짭짤','고소'], soup:'국물 없음',
+    temperature:'차가움', style:['가벼운 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'에그베네딕트', emoji:'🍳',
+    desc:'잉글리시 머핀 위에 수란과 홀랜다이즈 소스를 올린 브런치',
+    type:['양식'], staple:['빵'], ingredient:['달걀','유제품'],
+    spice:'담백', flavor:['고소','짭짤'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'브런치 플레이트', emoji:'🥞',
+    desc:'스크램블 에그와 소시지, 빵을 곁들인 카페 브런치',
+    type:['양식'], staple:['빵'], ingredient:['달걀','고기','유제품'],
+    spice:'담백', flavor:['고소','짭짤'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'연어 포케', emoji:'🥑',
+    desc:'연어와 아보카도, 채소를 곁들인 하와이안 보울',
+    type:['아시아식'], staple:['밥'], ingredient:['해산물','채소'],
+    spice:'담백', flavor:['새콤','고소'], soup:'국물 없음',
+    temperature:'차가움', style:['가벼운 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'연어덮밥', emoji:'🍣',
+    desc:'신선한 연어와 밥을 함께 즐기는 일식 덮밥',
+    type:['일식'], staple:['밥'], ingredient:['해산물'],
+    spice:'담백', flavor:['고소','감칠맛'], soup:'국물 없음',
+    temperature:'차가움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'카이센동', emoji:'🍚',
+    desc:'참치와 연어 등 여러 해산물을 올린 일본식 해산물 덮밥',
+    type:['일식'], staple:['밥'], ingredient:['해산물'],
+    spice:'담백', flavor:['감칠맛','고소'], soup:'국물 없음',
+    temperature:'차가움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'규카츠', emoji:'🥩',
+    desc:'겉은 바삭하고 속은 촉촉하게 익힌 일본식 소고기 커틀릿',
+    type:['일식'], staple:['밥'], ingredient:['고기','달걀'],
+    spice:'담백', flavor:['짭짤','고소'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'텐동', emoji:'🍤',
+    desc:'새우와 채소 튀김을 올리고 달콤짭짤한 소스를 뿌린 덮밥',
+    type:['일식'], staple:['밥'], ingredient:['해산물','채소'],
+    spice:'담백', flavor:['달콤','짭짤'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'마제소바', emoji:'🍜',
+    desc:'고기와 계란 노른자, 특제 소스를 비벼 먹는 일본식 비빔면',
+    type:['일식'], staple:['면'], ingredient:['고기','달걀'],
+    spice:'적당히 매움', flavor:['짭짤','감칠맛'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'로제파스타', emoji:'🍝',
+    desc:'토마토와 크림소스가 어우러진 부드럽고 진한 파스타',
+    type:['양식'], staple:['면'], ingredient:['유제품','고기'],
+    spice:'담백', flavor:['고소','새콤'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'바질크림파스타', emoji:'🌿',
+    desc:'향긋한 바질과 고소한 크림소스를 곁들인 파스타',
+    type:['양식'], staple:['면'], ingredient:['유제품'],
+    spice:'담백', flavor:['고소','감칠맛'], soup:'국물 없음',
+    temperature:'뜨거움', style:['든든한 식사'], modes:['lunch','dinner']
+},
+
+{
+    name:'타코', emoji:'🌮',
+    desc:'또띠아에 고기와 채소, 살사를 채워 먹는 멕시칸 요리',
+    type:['양식'], staple:['빵'], ingredient:['고기','채소'],
+    spice:'적당히 매움', flavor:['새콤','짭짤'], soup:'국물 없음',
+    temperature:'뜨거움', style:['가벼운 식사'], modes:['lunch','dinner']
+}
+
+];
+
+
+// =====================================
+// 4. 선택된 키워드 가져오기
+// =====================================
+
+function getSelectedKeywords() {
+
+    const selected = {};
+
+    document.querySelectorAll('.options').forEach(group => {
+
+        selected[group.dataset.category] = Array.from(
+            group.querySelectorAll('.option.selected')
+        ).map(button => button.dataset.value);
+
+    });
+
+    return selected;
+}
+
+
+// =====================================
+// 5. 추천 알고리즘
+// =====================================
+
+function recommendFood() {
+
+    const selected = getSelectedKeywords();
+
+    const selectedCount = Object.values(selected)
+        .reduce((sum, values) => sum + values.length, 0);
+
+    if (selectedCount === 0) {
+        alert('키워드를 하나 이상 선택해 주세요!');
+        return;
+    }
+
+    const availableFoods = foods.filter(food =>
+        food.modes.includes(currentMode)
+    );
+
+    // 카테고리별 일치 점수 계산
+    const scoredFoods = availableFoods.map(food => {
+
+        let score = 0;
+        let matched = 0;
+
+        Object.keys(selected).forEach(category => {
+
+            const keywords = selected[category];
+
+            if (keywords.length === 0) return;
+
+            let foodValues = food[category];
+
+            // 매운맛, 국물, 온도는 단일 값
+            if (!Array.isArray(foodValues)) {
+                foodValues = foodValues ? [foodValues] : [];
+            }
+
+            // 한 카테고리에서 여러 개 선택해도
+            // 해당 카테고리 점수는 최대 1점
+            const isMatched = keywords.some(keyword =>
+                foodValues.includes(keyword)
+            );
+
+            if (isMatched) {
+                score++;
+                matched++;
+            }
+
+        });
+
+        return {
+            ...food,
+            score,
+            matched
+        };
+
+    });
+
+    // 점수가 높은 음식부터 후보를 구성하되, 특정 종류(예: 빵)에
+    // 추천이 몰리지 않도록 주식과 음식 종류의 다양성을 함께 고려
+    scoredFoods.sort((a,b) => b.score - a.score);
+
+    const highestScore = scoredFoods[0].score;
+    let candidates = scoredFoods.filter(food => food.score >= highestScore - 2);
+    candidates.sort(() => Math.random() - 0.5);
+
+    const recommendations = [];
+    const usedStaples = new Set();
+    const usedTypes = new Set();
+    // 점수 차이가 크지 않은 범위에서 서로 다른 주식과 음식 종류를 우선 선택
+    while (recommendations.length < 3 && candidates.length > 0) {
+        let bestIndex = -1;
+        let bestVarietyScore = -Infinity;
+
+        candidates.forEach((food, index) => {
+            const stapleKey = (food.staple || [])[0] || '기타';
+            const typeKey = (food.type || [])[0] || '기타';
+            const varietyScore = food.score
+                + (usedStaples.has(stapleKey) ? -1.5 : 1.5)
+                + (usedTypes.has(typeKey) ? -0.5 : 0.5)
+                + Math.random() * 0.25;
+
+            if (varietyScore > bestVarietyScore) {
+                bestVarietyScore = varietyScore;
+                bestIndex = index;
+            }
+        });
+
+        // 다양성 제한으로 후보가 남지 않는 경우 제한 없이 채움
+        if (bestIndex === -1) bestIndex = 0;
+        const [picked] = candidates.splice(bestIndex, 1);
+        recommendations.push(picked);
+        usedStaples.add((picked.staple || [])[0] || '기타');
+        usedTypes.add((picked.type || [])[0] || '기타');
+    }
+
+    // 데이터가 적거나 조건이 좁은 경우에도 최대 3개까지 추천
+    if (recommendations.length < 3) {
+        const remaining = scoredFoods.filter(food =>
+            !recommendations.some(item => item.name === food.name)
+        );
+        remaining.sort((a, b) => b.score - a.score || Math.random() - 0.5);
+        recommendations.push(...remaining.slice(0, 3 - recommendations.length));
+    }
+
+    const grid = document.getElementById('resultGrid');
+    grid.innerHTML = '';
+
+    recommendations.forEach((food,index) => {
+
+        const card = document.createElement('div');
+        card.className = 'food-card';
+
+        const tagValues = [
+            ...(food.type || []),
+            ...(food.staple || []),
+            ...(food.ingredient || []),
+            food.spice,
+            ...(food.flavor || []),
+            food.soup,
+            food.temperature
+        ].filter(Boolean);
+
+        const tags = [...new Set(tagValues)]
+            .slice(0,5)
+            .map(tag => `<span>${tag}</span>`)
+            .join('');
+
+        card.innerHTML = `
+            <div class="food-number">
+                RECOMMENDATION 0${index+1}
+            </div>
+
+            <div class="food-emoji">${food.emoji}</div>
+
+            <h3>${food.name}</h3>
+
+            <p>${food.desc}</p>
+
+            <div class="food-tags">${tags}</div>
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+    const modeName = currentMode === 'lunch' ? '점심' : '저녁';
+
+    document.getElementById('resultDescription').textContent =
+        `${modeName} 메뉴 · 선택한 ${selectedCount}개 키워드 기준 추천`;
+
+    document.getElementById('resultNotice').textContent =
+        '✨ 선택한 조건과 가장 잘 어울리는 메뉴를 우선 추천했어요!';
+
+    const resultSection = document.getElementById('resultSection');
+
+    resultSection.style.display = 'block';
+
+    resultSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+
+}
+
+
+// =====================================
+// 6. 초기화
+// =====================================
+
+function resetSelection() {
+
+    document.querySelectorAll('.option').forEach(button => {
+        button.classList.remove('selected');
+    });
+
+    updateCount();
+
+    document.getElementById('resultSection').style.display = 'none';
+
+}
+
+</script>
+
+</body>
+</html>
